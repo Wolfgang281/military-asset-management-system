@@ -42,16 +42,11 @@ const Login = () => {
       dispatch(setUserData(response.data.user));
       navigate("/dashboard");
     } catch (error) {
-      console.log("error: ", error.response);
-      setError("Unable to reach server. Please try again.");
+      setError(error.response.data.message);
     } finally {
       setIsLoading(false);
     }
   };
-  //
-  //
-  //
-  //
 
   const fillCredentials = (role) => {
     const credential = {
@@ -136,7 +131,7 @@ const Login = () => {
           </div>
 
           <p className="text-xs text-slate-600">
-            © 2025 Utkarsh Gupta · All sessions are logged and monitored
+            © 2026 Utkarsh Gupta · All sessions are logged and monitored
           </p>
         </div>
       </div>
