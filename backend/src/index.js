@@ -25,6 +25,13 @@ app.use(express.json());
 
 app.use("/api", router);
 
+app.get("/", (_, res) => {
+  res.status(200).json({
+    success: true,
+    message: "The server is running! Time to make some magic happen ✨",
+  });
+});
+
 if (process.argv[2] == "seed") {
   seed();
 }
