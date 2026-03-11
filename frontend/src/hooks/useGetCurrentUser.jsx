@@ -12,7 +12,7 @@ function useGetCurrentUser() {
     const fetchUser = async () => {
       try {
         const res = await axiosInstance.get(AUTH_ROUTES.CURRENT_USER);
-        // console.log("res: ", res);
+        console.log("res: ", res);
         dispatch(setUserData(res.data.user));
       } catch (err) {
         console.log("err: ", err.response);

@@ -14,3 +14,8 @@ export const PURCHASE_ROUTES = {
   CREATE: `${BACKEND_URL}/api/purchase`,
   DELETE: (id) => `${BACKEND_URL}/api/purchase/${id}`,
 };
+
+export const ASSET_ROUTES = {
+  GET_ALL: `${BACKEND_URL}/api/asset`,
+  GET_BY_ID: (id) => `${BACKEND_URL}/api/asset/${id}`,
+};

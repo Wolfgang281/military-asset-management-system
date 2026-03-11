@@ -29,7 +29,7 @@ const Dashboard = () => {
       userData?.role === "base_commander" ? userData.assignedBase : "All Bases",
     category: "All Categories",
     startDate: "2025-01-01",
-    endDate: "2025-12-31",
+    endDate: new Date().toISOString().split("T")[0],
   });
 
   const fetchDashboard = async () => {

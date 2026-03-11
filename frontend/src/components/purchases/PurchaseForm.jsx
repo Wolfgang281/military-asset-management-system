@@ -1,5 +1,6 @@
 import { AlertCircle, Loader2, Package, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { ASSET_ROUTES, PURCHASE_ROUTES } from "../../constants/endpoints";
 import axiosInstance from "../../lib/axios";
 
 const BASES = [
@@ -43,7 +44,7 @@ const PurchaseForm = ({ onClose, onSuccess }) => {
 
   useEffect(() => {
     axiosInstance
-      .get("/api/assets")
+      .get(ASSET_ROUTES.GET_ALL)
       .then((r) => {
         setAssets(r.data.data);
         setFiltered(r.data.data);
@@ -73,7 +74,7 @@ const PurchaseForm = ({ onClose, onSuccess }) => {
 
     setLoading(true);
     try {
-      await axiosInstance.post("/api/purchases", {
+      await axiosInstance.post(PURCHASE_ROUTES.CREATE, {
         asset: form.asset,
         base: form.base,
         quantity: Number(form.quantity),
@@ -81,7 +82,7 @@ const PurchaseForm = ({ onClose, onSuccess }) => {
         supplierRef: form.supplierRef,
         notes: form.notes,
       });
-      onSuccess();
+      onSuccess(); // triggers toast.success in parent
       onClose();
     } catch (err) {
       setError(err?.response?.data?.message || "Failed to create purchase.");
@@ -129,7 +130,6 @@ const PurchaseForm = ({ onClose, onSuccess }) => {
             </div>
           )}
 
-          {/* Category filter */}
           <Field label="Filter by Category">
             <select
               value={category}
@@ -145,7 +145,6 @@ const PurchaseForm = ({ onClose, onSuccess }) => {
             </select>
           </Field>
 
-          {/* Asset */}
           <Field label="Asset *">
             {fetching ? (
               <div className="flex items-center gap-2 py-2">
@@ -168,7 +167,6 @@ const PurchaseForm = ({ onClose, onSuccess }) => {
             )}
           </Field>
 
-          {/* Base */}
           <Field label="Base *">
             <select
               value={form.base}
@@ -184,7 +182,6 @@ const PurchaseForm = ({ onClose, onSuccess }) => {
             </select>
           </Field>
 
-          {/* Quantity + Date */}
           <div className="grid grid-cols-2 gap-3">
             <Field label="Quantity *">
               <input
@@ -208,7 +205,6 @@ const PurchaseForm = ({ onClose, onSuccess }) => {
             </Field>
           </div>
 
-          {/* Supplier ref */}
           <Field label="Supplier Reference">
             <input
               type="text"
@@ -220,7 +216,6 @@ const PurchaseForm = ({ onClose, onSuccess }) => {
             />
           </Field>
 
-          {/* Notes */}
           <Field label="Notes">
             <textarea
               value={form.notes}
@@ -244,7 +239,7 @@ const PurchaseForm = ({ onClose, onSuccess }) => {
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="flex-[2] py-2.5 rounded-lg bg-green-500 hover:bg-green-400 disabled:bg-green-900 text-slate-900 text-sm font-bold cursor-pointer transition-colors flex items-center justify-center gap-2"
+            className="flex-[2] py-2.5 rounded-lg bg-green-500 hover:bg-green-400 disabled:opacity-60 text-slate-900 text-sm font-bold cursor-pointer transition-colors flex items-center justify-center gap-2"
           >
             {loading && <Loader2 size={14} className="animate-spin" />}
             {loading ? "Saving..." : "Record Purchase"}

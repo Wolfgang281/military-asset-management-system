@@ -11,6 +11,8 @@ import TopBar from "../components/dashboard/TopBar";
 import PurchaseFilters from "../components/purchases/PurchaseFilters";
 import PurchaseForm from "../components/purchases/PurchaseForm";
 import PurchaseTable from "../components/purchases/PurchaseTable";
+import { toast } from "../components/ui/Toast";
+import { PURCHASE_ROUTES } from "../constants/endpoints";
 import axiosInstance from "../lib/axios";
 
 const Purchases = () => {
@@ -28,7 +30,7 @@ const Purchases = () => {
       userData?.role === "base_commander" ? userData.assignedBase : "All Bases",
     category: "All Categories",
     startDate: "2025-01-01",
-    endDate: "2025-12-31",
+    endDate: new Date().toISOString().split("T")[0],
   });
 
   const fetchPurchases = async () => {
@@ -43,11 +45,13 @@ const Purchases = () => {
       if (filters.startDate) params.set("startDate", filters.startDate);
       if (filters.endDate) params.set("endDate", filters.endDate);
       const res = await axiosInstance.get(
-        `/api/purchases?${params.toString()}`,
+        `${PURCHASE_ROUTES.GET}?${params.toString()}`,
       );
       setPurchases(res.data.data);
     } catch (err) {
-      setError(err?.response?.data?.message || "Failed to load purchases.");
+      const msg = err?.response?.data?.message || "Failed to load purchases.";
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
@@ -61,11 +65,19 @@ const Purchases = () => {
     if (!window.confirm("Delete this purchase record? This cannot be undone."))
       return;
     try {
-      await axiosInstance.delete(`/api/purchases/${id}`);
+      await axiosInstance.delete(PURCHASE_ROUTES.DELETE(id));
       setPurchases((prev) => prev.filter((p) => p._id !== id));
+      toast.success("Purchase record deleted.");
     } catch (err) {
-      setError(err?.response?.data?.message || "Failed to delete purchase.");
+      const msg = err?.response?.data?.message || "Failed to delete purchase.";
+      setError(msg);
+      toast.error(msg);
     }
+  };
+
+  const handleSuccess = () => {
+    toast.success("Purchase recorded successfully.");
+    fetchPurchases();
   };
 
   return (
@@ -118,7 +130,7 @@ const Purchases = () => {
           loading={loading}
         />
 
-        {/* Error */}
+        {/* Inline error (keeps UI context, toast is also shown) */}
         {error && (
           <div className="flex items-center gap-2.5 bg-red-500/8 border border-red-500/25 rounded-xl px-4 py-3 mb-6">
             <AlertCircle size={15} className="text-red-400 shrink-0" />
@@ -126,7 +138,6 @@ const Purchases = () => {
           </div>
         )}
 
-        {/* Loading */}
         {loading && (
           <div className="flex items-center justify-center gap-3 py-24">
             <Loader2 size={20} className="text-amber-500 animate-spin" />
@@ -134,7 +145,6 @@ const Purchases = () => {
           </div>
         )}
 
-        {/* Table */}
         {!loading && (
           <PurchaseTable
             purchases={purchases}
@@ -143,11 +153,10 @@ const Purchases = () => {
         )}
       </main>
 
-      {/* Form modal */}
       {showForm && (
         <PurchaseForm
           onClose={() => setShowForm(false)}
-          onSuccess={fetchPurchases}
+          onSuccess={handleSuccess}
         />
       )}
     </div>

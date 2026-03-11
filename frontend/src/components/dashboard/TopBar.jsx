@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   ArrowLeftRight,
   BarChart3,
@@ -43,7 +44,9 @@ const TopBar = () => {
   const handleLogout = async () => {
     try {
       await axiosInstance.post("/api/auth/logout");
-    } catch {}
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
     dispatch(clearUser());
     navigate("/login");
   };

@@ -8,13 +8,13 @@ const fmt = (n) => {
 };
 
 const MetricCard = ({
-  icon: Icon,
   label,
   value,
   sub,
   accent,
   onClick,
   badge,
+  icon: Icon,
 }) => {
   const [hovered, setHovered] = useState(false);
   const isClickable = !!onClick;
