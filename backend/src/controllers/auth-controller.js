@@ -52,7 +52,7 @@ export const login = async (req, res, next) => {
       path: "/",
       httpOnly: true,
       secure: true,
-      sameSite: "strict",
+      sameSite: "none",
     });
 
     return res.status(200).json({
@@ -74,7 +74,7 @@ export const logout = async (req, res, next) => {
     path: "/",
     httpOnly: true,
     secure: true,
-    sameSite: "strict",
+    sameSite: "none",
   });
 
   return res.status(200).json({
