@@ -2,10 +2,12 @@ import { useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
 import AuthLoader from "./components/AuthLoader";
 import useGetCurrentUser from "./hooks/useGetCurrentUser";
+import Assignments from "./pages/Assignments";
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Purchases from "./pages/Purchases";
+import Transfers from "./pages/Transfers";
 
 const ProtectedRoute = ({ userData, children }) => {
   if (!userData) return <Navigate to="/login" replace />;
@@ -27,12 +29,10 @@ const App = () => {
     <Routes>
       <>
         <Route path="/" element={<Home />} />
-
         <Route
           path="/login"
           element={userData ? <Navigate to="/dashboard" replace /> : <Login />}
         />
-
         <Route
           path="/dashboard"
           element={
@@ -41,12 +41,27 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/purchases"
           element={
             <ProtectedRoute userData={userData}>
               <Purchases />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/transfers"
+          element={
+            <ProtectedRoute userData={userData}>
+              <Transfers />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/assignments"
+          element={
+            <ProtectedRoute userData={userData}>
+              <Assignments />
             </ProtectedRoute>
           }
         />
