@@ -4,27 +4,22 @@ import {
   TransferModel,
 } from "../models/index.js";
 
-//! ─── GET /api/dashboard ───────────────────────────────────────────────────────
 export const getDashboard = async (req, res, next) => {
   try {
     const { startDate, endDate, base, category } = req.query;
 
-    // ── 1. Resolve base filter (role scoping) ─────────────────────────────────
     // base_commander is always locked to their assigned base
     const resolvedBase =
       req.user.role === "base_commander" ? req.user.assignedBase : base || null;
 
-    // ── 2. Build date range ───────────────────────────────────────────────────
     const start = startDate ? new Date(startDate) : new Date("2000-01-01");
     const end = endDate ? new Date(endDate) : new Date();
     // set end to end of day
     end.setHours(23, 59, 59, 999);
 
-    // ── 3. Asset filter (join via lookup + category match) ────────────────────
     // We'll use $lookup to join asset category where needed
     const assetMatchStage = category ? { "assetInfo.category": category } : {};
 
-    // ── 4. PURCHASES in range ─────────────────────────────────────────────────
     const purchaseMatch = {
       purchaseDate: { $gte: start, $lte: end },
       ...(resolvedBase && { base: resolvedBase }),
@@ -64,7 +59,6 @@ export const getDashboard = async (req, res, next) => {
     const totalPurchases = purchaseAgg[0]?.total ?? 0;
     const purchaseRecords = purchaseAgg[0]?.records ?? [];
 
-    // ── 5. OPENING BALANCE — purchases before start date ─────────────────────
     const openingMatch = {
       purchaseDate: { $lt: start },
       ...(resolvedBase && { base: resolvedBase }),
@@ -87,7 +81,6 @@ export const getDashboard = async (req, res, next) => {
 
     const openingBalance = openingAgg[0]?.total ?? 0;
 
-    // ── 6. TRANSFERS IN (completed, toBase = resolvedBase, in range) ──────────
     const transferInMatch = {
       status: "completed",
       transferDate: { $gte: start, $lte: end },
@@ -129,7 +122,6 @@ export const getDashboard = async (req, res, next) => {
     const totalTransfersIn = transferInAgg[0]?.total ?? 0;
     const transferInRecords = transferInAgg[0]?.records ?? [];
 
-    // ── 7. TRANSFERS OUT (completed, fromBase = resolvedBase, in range) ───────
     const transferOutMatch = {
       status: "completed",
       transferDate: { $gte: start, $lte: end },
@@ -171,7 +163,6 @@ export const getDashboard = async (req, res, next) => {
     const totalTransfersOut = transferOutAgg[0]?.total ?? 0;
     const transferOutRecords = transferOutAgg[0]?.records ?? [];
 
-    // ── 8. ASSIGNMENTS — active & expended ────────────────────────────────────
     const assignmentMatch = {
       ...(resolvedBase && { base: resolvedBase }),
     };
@@ -200,11 +191,9 @@ export const getDashboard = async (req, res, next) => {
     const expended =
       assignmentAgg.find((a) => a._id === "expended")?.total ?? 0;
 
-    // ── 9. Compute net movement + closing balance ─────────────────────────────
     const netMovement = totalPurchases + totalTransfersIn - totalTransfersOut;
     const closingBalance = openingBalance + netMovement;
 
-    // ── 10. Send response ─────────────────────────────────────────────────────
     return res.status(200).json({
       success: true,
       data: {
@@ -216,13 +205,11 @@ export const getDashboard = async (req, res, next) => {
         transfersOut: totalTransfersOut,
         assigned,
         expended,
-        // breakdown for the net movement modal
         breakdown: {
           purchases: purchaseRecords,
           transfersIn: transferInRecords,
           transfersOut: transferOutRecords,
         },
-        // meta — useful for the filter bar to show what was applied
         appliedFilters: {
           base: resolvedBase ?? "All Bases",
           category: category ?? "All Categories",

@@ -4,17 +4,13 @@ import { AppError } from "../utils/index.js";
 const getIP = (req) =>
   req.headers["x-forwarded-for"]?.split(",")[0] || req.ip || "unknown";
 
-//! ─── GET /api/purchases ───────────────────────────────────────────────────────
-// Access: Admin, Base Commander (scoped), Logistics
 export const getPurchases = async (req, res, next) => {
   try {
     const { startDate, endDate, category, base } = req.query;
 
-    // ── Base scoping ──────────────────────────────────────────────────────────
     const resolvedBase =
       req.user.role === "base_commander" ? req.user.assignedBase : base || null;
 
-    // ── Build match filter ────────────────────────────────────────────────────
     const match = {};
     if (resolvedBase) match.base = resolvedBase;
     if (startDate || endDate) {
@@ -27,7 +23,6 @@ export const getPurchases = async (req, res, next) => {
       }
     }
 
-    // ── Aggregation with asset + user populate ────────────────────────────────
     const pipeline = [
       { $match: match },
       {
@@ -49,7 +44,7 @@ export const getPurchases = async (req, res, next) => {
           as: "createdByInfo",
         },
       },
-      { $unwind: { path: "$createdByInfo", preserveNullAndEmpty: true } },
+      { $unwind: { path: "$createdByInfo", preserveNullAndEmptyArrays: true } },
       {
         $project: {
           _id: 1,
@@ -87,14 +82,11 @@ export const getPurchases = async (req, res, next) => {
   }
 };
 
-//! ─── POST /api/purchases ──────────────────────────────────────────────────────
-// Access: Admin, Logistics only
 export const createPurchase = async (req, res, next) => {
   try {
     const { asset, base, quantity, purchaseDate, supplierRef, notes } =
       req.body;
 
-    // ── Validate asset exists ─────────────────────────────────────────────────
     const assetDoc = await AssetModel.findById(asset);
     if (!assetDoc) {
       return next(new AppError("Asset not found", 404));
@@ -116,12 +108,10 @@ export const createPurchase = async (req, res, next) => {
       createdBy: req.user._id,
     });
 
-    // ── Populate for response ─────────────────────────────────────────────────
     const populated = await PurchaseModel.findById(purchase._id)
       .populate("asset", "name category unit")
       .populate("createdBy", "name role");
 
-    // ── Audit log ─────────────────────────────────────────────────────────────
     await AuditLogModel.create({
       userId: req.user._id,
       userName: req.user.name,
@@ -147,8 +137,6 @@ export const createPurchase = async (req, res, next) => {
   }
 };
 
-//! ─── DELETE /api/purchases/:id ────────────────────────────────────────────────
-// Access: Admin only
 export const deletePurchase = async (req, res, next) => {
   try {
     const purchase = await PurchaseModel.findById(req.params.id).populate(
@@ -162,7 +150,6 @@ export const deletePurchase = async (req, res, next) => {
 
     await PurchaseModel.findByIdAndDelete(req.params.id);
 
-    // ── Audit log ─────────────────────────────────────────────────────────────
     await AuditLogModel.create({
       userId: req.user._id,
       userName: req.user.name,

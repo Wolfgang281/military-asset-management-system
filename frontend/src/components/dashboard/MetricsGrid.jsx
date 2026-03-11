@@ -14,15 +14,9 @@ const MetricsGrid = ({ data, onNetMovementClick }) => {
   if (!data) return null;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-      {/* ── Row 1: Balance trio ───────────────────────────────── */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: 16,
-        }}
-      >
+    <div className="flex flex-col gap-4">
+      {/* Row 1 — Balance trio */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <MetricCard
           index={0}
           icon={BarChart3}
@@ -51,14 +45,8 @@ const MetricsGrid = ({ data, onNetMovementClick }) => {
         />
       </div>
 
-      {/* ── Row 2: Movement trio ──────────────────────────────── */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: 16,
-        }}
-      >
+      {/* Row 2 — Movement trio */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <MetricCard
           index={3}
           icon={ShoppingCart}
@@ -85,14 +73,8 @@ const MetricsGrid = ({ data, onNetMovementClick }) => {
         />
       </div>
 
-      {/* ── Row 3: Personnel duo ──────────────────────────────── */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(2, 1fr)",
-          gap: 16,
-        }}
-      >
+      {/* Row 3 — Personnel duo */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <MetricCard
           index={6}
           icon={UserCheck}

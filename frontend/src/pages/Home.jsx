@@ -62,212 +62,76 @@ const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <div
-      className="min-h-screen bg-slate-950 text-white"
-      style={{ fontFamily: "system-ui, sans-serif" }}
-    >
-      {/* ── NAVBAR ─────────────────────────────────────────────── */}
-      <nav style={{ borderBottom: "1px solid #1e293b", padding: "16px 24px" }}>
-        <div
-          style={{
-            maxWidth: 1152,
-            margin: "0 auto",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <div
-              style={{
-                width: 36,
-                height: 36,
-                background: "#f59e0b",
-                borderRadius: 8,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexShrink: 0,
-              }}
-            >
-              <Shield size={18} color="#0f172a" fill="#0f172a" />
+    <div className="min-h-screen bg-slate-950 text-white font-mono">
+      {/* ── NAVBAR ──────────────────────────────────────────────── */}
+      <nav className="border-b border-slate-800 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto flex items-center justify-between h-16">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 bg-amber-500 rounded-lg flex items-center justify-center shrink-0">
+              <Shield size={18} className="text-slate-900 fill-slate-900" />
             </div>
             <div>
-              <span
-                style={{
-                  fontSize: 16,
-                  fontWeight: 800,
-                  letterSpacing: "0.15em",
-                  color: "white",
-                }}
-              >
+              <span className="text-sm font-black tracking-widest text-white">
                 MAMS
               </span>
-              <span style={{ marginLeft: 10, fontSize: 13, color: "#64748b" }}>
+              <span className="hidden sm:inline ml-3 text-xs text-slate-500">
                 Military Asset Management System
               </span>
             </div>
           </div>
           <button
             onClick={() => navigate("/login")}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              background: "#f59e0b",
-              color: "#0f172a",
-              border: "none",
-              borderRadius: 8,
-              padding: "10px 20px",
-              fontSize: 14,
-              fontWeight: 700,
-              cursor: "pointer",
-            }}
+            className="flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold text-sm rounded-lg px-4 py-2 cursor-pointer transition-colors"
           >
-            Sign In <ArrowRight size={15} />
+            Sign In <ArrowRight size={14} />
           </button>
         </div>
       </nav>
 
-      {/* ── HERO ───────────────────────────────────────────────── */}
-      <section style={{ position: "relative", overflow: "hidden" }}>
+      {/* ── HERO ────────────────────────────────────────────────── */}
+      <section className="relative overflow-hidden">
         <div
+          className="absolute inset-0 opacity-15"
           style={{
-            position: "absolute",
-            inset: 0,
-            opacity: 0.15,
             backgroundImage: `url('https://images.unsplash.com/photo-1569025690938-a00729c9e1f9?w=1400&q=80')`,
             backgroundSize: "cover",
             backgroundPosition: "center top",
           }}
         />
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "linear-gradient(to bottom, rgba(2,6,23,0.5), rgba(2,6,23,0.85), #020617)",
-          }}
-        />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-slate-950/80 to-slate-950" />
 
-        <div
-          style={{
-            position: "relative",
-            maxWidth: 1152,
-            margin: "0 auto",
-            padding: "100px 24px",
-            textAlign: "center",
-          }}
-        >
-          {/* Badge */}
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              border: "1px solid rgba(245,158,11,0.3)",
-              background: "rgba(245,158,11,0.08)",
-              borderRadius: 999,
-              padding: "6px 16px",
-              marginBottom: 28,
-            }}
-          >
-            <span
-              style={{
-                width: 8,
-                height: 8,
-                borderRadius: "50%",
-                background: "#fbbf24",
-                display: "inline-block",
-                animation: "pulse 2s infinite",
-              }}
-            />
-            <span
-              style={{
-                fontSize: 12,
-                fontWeight: 700,
-                color: "#fbbf24",
-                letterSpacing: "0.25em",
-                textTransform: "uppercase",
-              }}
-            >
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-20 sm:py-28 text-center">
+          <div className="inline-flex items-center gap-2 border border-amber-500/30 bg-amber-500/8 rounded-full px-4 py-1.5 mb-7">
+            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+            <span className="text-xs font-bold text-amber-400 tracking-[0.25em] uppercase">
               Indian Army — Defence Operations Platform
             </span>
           </div>
 
-          <h1
-            style={{
-              fontSize: "clamp(36px, 6vw, 72px)",
-              fontWeight: 800,
-              lineHeight: 1.1,
-              letterSpacing: "-0.02em",
-              margin: "0 0 24px",
-            }}
-          >
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black leading-tight tracking-tight mb-6">
             Military Asset
             <br />
-            <span style={{ color: "#fbbf24" }}>Management System</span>
+            <span className="text-amber-400">Management System</span>
           </h1>
 
-          <p
-            style={{
-              fontSize: "clamp(16px, 2vw, 20px)",
-              color: "#94a3b8",
-              maxWidth: 640,
-              margin: "0 auto 40px",
-              lineHeight: 1.7,
-            }}
-          >
+          <p className="text-base sm:text-lg text-slate-400 max-w-xl mx-auto leading-relaxed mb-10">
             A secure, role-based platform for tracking weapons, vehicles and
             ammunition across Northern, Western, Southern commands and forward
-            deployments. Built for accountability, transparency and operational
-            speed.
+            deployments.
           </p>
 
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 16,
-              justifyContent: "center",
-            }}
-          >
+          <div className="flex flex-wrap gap-4 justify-center">
             <button
               onClick={() => navigate("/login")}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                background: "#f59e0b",
-                color: "#0f172a",
-                border: "none",
-                borderRadius: 10,
-                padding: "14px 28px",
-                fontSize: 16,
-                fontWeight: 700,
-                cursor: "pointer",
-                boxShadow: "0 8px 24px rgba(245,158,11,0.25)",
-              }}
+              className="flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold text-base rounded-xl px-7 py-3.5 cursor-pointer transition-colors shadow-lg shadow-amber-500/20"
             >
-              Access System <ArrowRight size={17} />
+              Access System <ArrowRight size={16} />
             </button>
             <a
               href="https://github.com/Wolfgang281/military-asset-management-system"
               target="_blank"
               rel="noopener noreferrer"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                border: "1px solid #334155",
-                background: "#0f172a",
-                borderRadius: 10,
-                padding: "14px 28px",
-                fontSize: 16,
-                fontWeight: 600,
-                color: "#cbd5e1",
-                textDecoration: "none",
-              }}
+              className="flex items-center gap-2 border border-slate-700 bg-slate-900 hover:bg-slate-800 rounded-xl px-7 py-3.5 text-base font-semibold text-slate-300 no-underline transition-colors"
             >
               View on GitHub
             </a>
@@ -275,235 +139,78 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ── STATS ──────────────────────────────────────────────── */}
-      <section
-        style={{
-          borderTop: "1px solid #1e293b",
-          borderBottom: "1px solid #1e293b",
-          background: "rgba(15,23,42,0.6)",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: 1152,
-            margin: "0 auto",
-            padding: "48px 24px",
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: 32,
-            textAlign: "center",
-          }}
-        >
-          {STATS.map((s) => (
-            <div key={s.label}>
-              <p
-                style={{
-                  fontSize: "clamp(36px, 4vw, 56px)",
-                  fontWeight: 800,
-                  color: "#fbbf24",
-                  margin: "0 0 8px",
-                }}
-              >
-                {s.value}
-              </p>
-              <p style={{ fontSize: 15, color: "#64748b", margin: 0 }}>
-                {s.label}
-              </p>
-            </div>
-          ))}
+      {/* ── STATS ───────────────────────────────────────────────── */}
+      <section className="border-y border-slate-800 bg-slate-900/40">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
+            {STATS.map((s) => (
+              <div key={s.label}>
+                <p className="text-4xl sm:text-5xl font-black text-amber-400 mb-2">
+                  {s.value}
+                </p>
+                <p className="text-sm text-slate-500">{s.label}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ── FEATURES ───────────────────────────────────────────── */}
-      <section
-        style={{ maxWidth: 1152, margin: "0 auto", padding: "96px 24px" }}
-      >
-        <div style={{ textAlign: "center", marginBottom: 56 }}>
-          <p
-            style={{
-              fontSize: 12,
-              fontWeight: 700,
-              letterSpacing: "0.3em",
-              color: "#f59e0b",
-              textTransform: "uppercase",
-              marginBottom: 12,
-            }}
-          >
+      {/* ── FEATURES ────────────────────────────────────────────── */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-20">
+        <div className="text-center mb-14">
+          <p className="text-xs font-bold tracking-[0.3em] text-amber-500 uppercase mb-3">
             Platform Capabilities
           </p>
-          <h2
-            style={{
-              fontSize: "clamp(28px, 4vw, 44px)",
-              fontWeight: 800,
-              margin: "0 0 16px",
-              color: "white",
-            }}
-          >
+          <h2 className="text-3xl sm:text-4xl font-black mb-4">
             Everything in one system
           </h2>
-          <p
-            style={{
-              fontSize: 16,
-              color: "#94a3b8",
-              maxWidth: 520,
-              margin: "0 auto",
-              lineHeight: 1.7,
-            }}
-          >
+          <p className="text-slate-400 max-w-md mx-auto leading-relaxed">
             From procurement to expiry, every asset movement is tracked, logged
             and visible to the right people.
           </p>
         </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 20,
-          }}
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {FEATURES.map((f) => (
             <div
               key={f.title}
-              style={{
-                borderRadius: 14,
-                border: "1px solid #1e293b",
-                background: "#0f172a",
-                padding: 28,
-                transition: "border-color 0.2s",
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.borderColor = "#334155")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.borderColor = "#1e293b")
-              }
+              className="rounded-xl border border-slate-800 bg-slate-900 p-7 hover:border-slate-700 transition-colors"
             >
-              <div
-                style={{
-                  width: 48,
-                  height: 48,
-                  borderRadius: 12,
-                  background: "rgba(245,158,11,0.1)",
-                  border: "1px solid rgba(245,158,11,0.2)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: 20,
-                }}
-              >
-                <f.icon size={22} color="#fbbf24" />
+              <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mb-5">
+                <f.icon size={22} className="text-amber-400" />
               </div>
-              <h3
-                style={{
-                  fontSize: 17,
-                  fontWeight: 700,
-                  color: "white",
-                  marginBottom: 10,
-                }}
-              >
+              <h3 className="text-base font-bold text-white mb-2.5">
                 {f.title}
               </h3>
-              <p
-                style={{
-                  fontSize: 14,
-                  color: "#64748b",
-                  lineHeight: 1.7,
-                  margin: 0,
-                }}
-              >
-                {f.desc}
-              </p>
+              <p className="text-sm text-slate-500 leading-relaxed">{f.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── TECH STACK ─────────────────────────────────────────── */}
-      <section
-        style={{
-          borderTop: "1px solid #1e293b",
-          background: "rgba(15,23,42,0.4)",
-        }}
-      >
-        <div style={{ maxWidth: 1152, margin: "0 auto", padding: "80px 24px" }}>
-          <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <p
-              style={{
-                fontSize: 12,
-                fontWeight: 700,
-                letterSpacing: "0.3em",
-                color: "#f59e0b",
-                textTransform: "uppercase",
-                marginBottom: 12,
-              }}
-            >
+      {/* ── TECH STACK ──────────────────────────────────────────── */}
+      <section className="border-t border-slate-800 bg-slate-900/30">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+          <div className="text-center mb-12">
+            <p className="text-xs font-bold tracking-[0.3em] text-amber-500 uppercase mb-3">
               Tech Stack
             </p>
-            <h2
-              style={{
-                fontSize: "clamp(28px, 4vw, 44px)",
-                fontWeight: 800,
-                color: "white",
-                margin: 0,
-              }}
-            >
+            <h2 className="text-3xl sm:text-4xl font-black">
               Built with modern tooling
             </h2>
           </div>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gap: 16,
-              maxWidth: 860,
-              margin: "0 auto",
-            }}
-          >
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-3xl mx-auto">
             {STACK.map((s) => (
               <div
                 key={s.label}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 16,
-                  borderRadius: 12,
-                  border: "1px solid #1e293b",
-                  background: "#0f172a",
-                  padding: "18px 20px",
-                }}
+                className="flex items-center gap-4 rounded-xl border border-slate-800 bg-slate-900 px-5 py-4"
               >
-                <div
-                  style={{
-                    width: 10,
-                    height: 10,
-                    borderRadius: "50%",
-                    background: "#fbbf24",
-                    flexShrink: 0,
-                  }}
-                />
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-400 shrink-0" />
                 <div>
-                  <p
-                    style={{
-                      fontSize: 12,
-                      color: "#64748b",
-                      fontWeight: 600,
-                      margin: "0 0 4px",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.05em",
-                    }}
-                  >
+                  <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-0.5">
                     {s.label}
                   </p>
-                  <p
-                    style={{
-                      fontSize: 15,
-                      color: "#e2e8f0",
-                      fontWeight: 600,
-                      margin: 0,
-                    }}
-                  >
+                  <p className="text-sm font-semibold text-slate-200">
                     {s.value}
                   </p>
                 </div>
@@ -513,46 +220,16 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ── ABOUT ──────────────────────────────────────────────── */}
-      <section style={{ borderTop: "1px solid #1e293b" }}>
-        <div
-          style={{
-            maxWidth: 800,
-            margin: "0 auto",
-            padding: "80px 24px",
-            textAlign: "center",
-          }}
-        >
-          <p
-            style={{
-              fontSize: 12,
-              fontWeight: 700,
-              letterSpacing: "0.3em",
-              color: "#f59e0b",
-              textTransform: "uppercase",
-              marginBottom: 12,
-            }}
-          >
+      {/* ── ABOUT ───────────────────────────────────────────────── */}
+      <section className="border-t border-slate-800">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 py-16 text-center">
+          <p className="text-xs font-bold tracking-[0.3em] text-amber-500 uppercase mb-3">
             About
           </p>
-          <h2
-            style={{
-              fontSize: "clamp(28px, 4vw, 44px)",
-              fontWeight: 800,
-              color: "white",
-              marginBottom: 20,
-            }}
-          >
+          <h2 className="text-3xl sm:text-4xl font-black mb-5">
             Built by Utkarsh Gupta
           </h2>
-          <p
-            style={{
-              fontSize: 16,
-              color: "#94a3b8",
-              lineHeight: 1.8,
-              marginBottom: 40,
-            }}
-          >
+          <p className="text-slate-400 leading-relaxed mb-10">
             MAMS is a take-home engineering project demonstrating a full-stack
             secure application with role-based access control, RESTful APIs,
             MongoDB aggregation pipelines and a responsive React frontend. The
@@ -560,43 +237,18 @@ const Home = () => {
             procurement, inter-command transfers, personnel assignments and a
             complete audit trail of every transaction.
           </p>
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 20,
-            }}
-          >
+          <div className="flex flex-wrap items-center justify-center gap-5">
             <button
               onClick={() => navigate("/login")}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                background: "#f59e0b",
-                color: "#0f172a",
-                border: "none",
-                borderRadius: 10,
-                padding: "14px 28px",
-                fontSize: 16,
-                fontWeight: 700,
-                cursor: "pointer",
-              }}
+              className="flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold text-base rounded-xl px-7 py-3.5 cursor-pointer transition-colors"
             >
-              Access System <ArrowRight size={17} />
+              Access System <ArrowRight size={16} />
             </button>
             <a
               href="https://github.com/Wolfgang281/military-asset-management-system"
               target="_blank"
               rel="noopener noreferrer"
-              style={{
-                fontSize: 15,
-                color: "#64748b",
-                textDecoration: "underline",
-                textUnderlineOffset: 4,
-              }}
+              className="text-sm text-slate-500 underline underline-offset-4 hover:text-slate-300 transition-colors"
             >
               github.com/Wolfgang281/MAMS
             </a>
@@ -604,38 +256,18 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ── FOOTER ─────────────────────────────────────────────── */}
-      <footer style={{ borderTop: "1px solid #1e293b", padding: "24px" }}>
-        <div
-          style={{
-            maxWidth: 1152,
-            margin: "0 auto",
-            display: "flex",
-            flexWrap: "wrap",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: 12,
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div
-              style={{
-                width: 22,
-                height: 22,
-                borderRadius: 4,
-                background: "rgba(245,158,11,0.15)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Shield size={12} color="#f59e0b" />
+      {/* ── FOOTER ──────────────────────────────────────────────── */}
+      <footer className="border-t border-slate-800 px-4 sm:px-6 py-5">
+        <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <div className="w-5 h-5 rounded bg-amber-500/10 flex items-center justify-center">
+              <Shield size={11} className="text-amber-500" />
             </div>
-            <span style={{ fontSize: 13, color: "#334155" }}>
+            <span className="text-xs text-slate-600">
               MAMS — Military Asset Management System
             </span>
           </div>
-          <span style={{ fontSize: 13, color: "#334155" }}>
+          <span className="text-xs text-slate-600">
             © 2026 Utkarsh Gupta · All rights reserved
           </span>
         </div>

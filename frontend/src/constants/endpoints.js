@@ -8,3 +8,9 @@ export const AUTH_ROUTES = {
 export const DASHBOARD_ROUTES = {
   GET: `${BACKEND_URL}/api/dashboard`,
 };
+
+export const PURCHASE_ROUTES = {
+  GET: `${BACKEND_URL}/api/purchase`,
+  CREATE: `${BACKEND_URL}/api/purchase`,
+  DELETE: (id) => `${BACKEND_URL}/api/purchase/${id}`,
+};

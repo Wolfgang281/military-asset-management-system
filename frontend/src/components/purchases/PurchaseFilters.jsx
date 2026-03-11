@@ -8,6 +8,7 @@ const BASES = [
   "Southern Command - Pune",
   "Forward Ops - Siachen",
 ];
+
 const CATEGORIES = [
   "All Categories",
   "weapons",
@@ -15,9 +16,6 @@ const CATEGORIES = [
   "ammunition",
   "equipment",
 ];
-
-const selectCls =
-  "w-full bg-[#06090f] border border-gray-800 rounded-lg px-3 py-2.5 text-sm text-slate-100 outline-none appearance-none cursor-pointer [color-scheme:dark]";
 
 const SelectField = ({ label, value, onChange, options }) => (
   <div className="flex flex-col gap-1.5">
@@ -28,7 +26,7 @@ const SelectField = ({ label, value, onChange, options }) => (
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className={selectCls}
+        className="w-full bg-[#06090f] border border-gray-800 rounded-lg px-3 py-2.5 text-sm text-slate-100 outline-none appearance-none cursor-pointer pr-8"
       >
         {options.map((o) => (
           <option key={o} value={o} className="bg-[#0b1120]">
@@ -44,13 +42,13 @@ const SelectField = ({ label, value, onChange, options }) => (
   </div>
 );
 
-const FilterBar = ({ filters, onChange, onApply, loading }) => {
+const PurchaseFilters = ({ filters, onChange, onApply, loading }) => {
   const { userData } = useSelector((s) => s.user);
   const isCommander = userData?.role === "base_commander";
   const set = (key) => (val) => onChange({ ...filters, [key]: val });
 
   return (
-    <div className="bg-[#0b1120] border border-gray-800 rounded-xl p-5 mb-7">
+    <div className="bg-[#0b1120] border border-gray-800 rounded-xl p-5 mb-6">
       {/* Header */}
       <div className="flex items-center gap-2 mb-4 pb-3.5 border-b border-gray-800">
         <SlidersHorizontal size={14} className="text-amber-500" />
@@ -91,6 +89,7 @@ const FilterBar = ({ filters, onChange, onApply, loading }) => {
           options={CATEGORIES}
         />
 
+        {/* Start date */}
         <div className="flex flex-col gap-1.5">
           <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
             Start Date
@@ -109,6 +108,7 @@ const FilterBar = ({ filters, onChange, onApply, loading }) => {
           />
         </div>
 
+        {/* End date */}
         <div className="flex flex-col gap-1.5">
           <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
             End Date
@@ -130,7 +130,7 @@ const FilterBar = ({ filters, onChange, onApply, loading }) => {
         <button
           onClick={onApply}
           disabled={loading}
-          className="w-full bg-amber-500 hover:bg-amber-400 disabled:opacity-60 text-slate-900 font-bold text-sm rounded-lg py-2.5 cursor-pointer transition-colors sm:col-span-2 lg:col-span-1"
+          className="w-full bg-amber-500 hover:bg-amber-400 disabled:opacity-60 text-slate-900 font-bold text-sm rounded-lg py-2.5 cursor-pointer transition-colors duration-150 sm:col-span-2 lg:col-span-1"
         >
           Apply
         </button>
@@ -139,4 +139,4 @@ const FilterBar = ({ filters, onChange, onApply, loading }) => {
   );
 };
 
-export default FilterBar;
+export default PurchaseFilters;

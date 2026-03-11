@@ -7,8 +7,17 @@ import NetMovementModal from "../components/dashboard/NetMovementModal";
 import TopBar from "../components/dashboard/TopBar";
 import axiosInstance from "../lib/axios";
 
+const fmtDate = (d) =>
+  d
+    ? new Date(d).toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      })
+    : "—";
+
 const Dashboard = () => {
-  const { userData } = useSelector((state) => state.user);
+  const { userData } = useSelector((s) => s.user);
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -34,7 +43,6 @@ const Dashboard = () => {
         params.set("category", filters.category);
       if (filters.startDate) params.set("startDate", filters.startDate);
       if (filters.endDate) params.set("endDate", filters.endDate);
-
       const res = await axiosInstance.get(
         `/api/dashboard?${params.toString()}`,
       );
@@ -53,65 +61,24 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "#06090f",
-        color: "#f1f5f9",
-        fontFamily: "system-ui, sans-serif",
-      }}
-    >
-      {/* Topbar */}
+    <div className="min-h-screen bg-[#06090f] text-slate-100 font-mono">
       <TopBar />
 
-      <main style={{ maxWidth: 1280, margin: "0 auto", padding: "32px 28px" }}>
-        {/* ── Page heading ──────────────────────────────────── */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "flex-end",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: 16,
-            marginBottom: 28,
-          }}
-        >
+      <main className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Page heading */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-7">
           <div>
-            <p
-              style={{
-                fontSize: 11,
-                fontWeight: 700,
-                letterSpacing: "0.25em",
-                color: "#f59e0b",
-                textTransform: "uppercase",
-                margin: "0 0 6px",
-              }}
-            >
+            <p className="text-[11px] font-bold tracking-[0.25em] text-amber-500 uppercase mb-1.5">
               Operations Overview
             </p>
-            <h1
-              style={{
-                fontSize: 26,
-                fontWeight: 800,
-                margin: 0,
-                letterSpacing: "-0.02em",
-                color: "#f1f5f9",
-              }}
-            >
+            <h1 className="text-2xl font-black tracking-tight">
               Asset Dashboard
             </h1>
             {data?.appliedFilters && (
-              <p style={{ fontSize: 12, color: "#374151", margin: "6px 0 0" }}>
+              <p className="text-xs text-gray-600 mt-1.5">
                 {data.appliedFilters.base} · {data.appliedFilters.category} ·{" "}
-                {new Date(data.appliedFilters.startDate).toLocaleDateString(
-                  "en-IN",
-                  { day: "2-digit", month: "short", year: "numeric" },
-                )}
-                {" – "}
-                {new Date(data.appliedFilters.endDate).toLocaleDateString(
-                  "en-IN",
-                  { day: "2-digit", month: "short", year: "numeric" },
-                )}
+                {fmtDate(data.appliedFilters.startDate)} –{" "}
+                {fmtDate(data.appliedFilters.endDate)}
               </p>
             )}
           </div>
@@ -119,31 +86,14 @@ const Dashboard = () => {
           <button
             onClick={fetchDashboard}
             disabled={loading}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 7,
-              background: "transparent",
-              border: "1px solid #1f2937",
-              borderRadius: 8,
-              padding: "9px 16px",
-              fontSize: 12,
-              fontWeight: 600,
-              color: "#64748b",
-              cursor: loading ? "not-allowed" : "pointer",
-            }}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-800 text-xs font-semibold text-gray-500 cursor-pointer hover:text-gray-300 transition-colors disabled:opacity-50 self-start sm:self-auto"
           >
-            <RefreshCw
-              size={13}
-              style={{
-                animation: loading ? "spin 1s linear infinite" : "none",
-              }}
-            />
+            <RefreshCw size={13} className={loading ? "animate-spin" : ""} />
             Refresh
           </button>
         </div>
 
-        {/* ── Filter bar ────────────────────────────────────── */}
+        {/* Filters */}
         <FilterBar
           filters={filters}
           onChange={setFilters}
@@ -151,54 +101,25 @@ const Dashboard = () => {
           loading={loading}
         />
 
-        {/* ── Error ─────────────────────────────────────────── */}
+        {/* Error */}
         {error && (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 10,
-              background: "rgba(239,68,68,0.08)",
-              border: "1px solid rgba(239,68,68,0.25)",
-              borderRadius: 10,
-              padding: "12px 16px",
-              marginBottom: 24,
-            }}
-          >
-            <AlertCircle size={15} color="#ef4444" />
-            <p style={{ fontSize: 13, color: "#ef4444", margin: 0 }}>{error}</p>
+          <div className="flex items-center gap-2.5 bg-red-500/8 border border-red-500/25 rounded-xl px-4 py-3 mb-6">
+            <AlertCircle size={15} className="text-red-400 shrink-0" />
+            <p className="text-sm text-red-400">{error}</p>
           </div>
         )}
 
-        {/* ── Loading ───────────────────────────────────────── */}
+        {/* Loading */}
         {loading && (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "100px 0",
-              gap: 12,
-            }}
-          >
-            <Loader2
-              size={20}
-              color="#f59e0b"
-              style={{ animation: "spin 1s linear infinite" }}
-            />
-            <span
-              style={{
-                fontSize: 13,
-                color: "#374151",
-                letterSpacing: "0.05em",
-              }}
-            >
+          <div className="flex items-center justify-center gap-3 py-24">
+            <Loader2 size={20} className="text-amber-500 animate-spin" />
+            <span className="text-sm text-gray-600 tracking-wide">
               Loading...
             </span>
           </div>
         )}
 
-        {/* ── Metrics ───────────────────────────────────────── */}
+        {/* Metrics */}
         {!loading && data && (
           <MetricsGrid
             data={data}
@@ -207,17 +128,9 @@ const Dashboard = () => {
         )}
       </main>
 
-      {/* ── Net Movement Modal ────────────────────────────── */}
       {showModal && data && (
         <NetMovementModal data={data} onClose={() => setShowModal(false)} />
       )}
-
-      <style>{`
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to   { transform: rotate(360deg); }
-        }
-      `}</style>
     </div>
   );
 };

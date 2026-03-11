@@ -23,117 +23,43 @@ const TABS = [
   { key: "transfersOut", label: "Transfers Out", color: "#ef4444" },
 ];
 
-const TH = ({ children }) => (
-  <th
-    style={{
-      textAlign: "left",
-      fontSize: 10,
-      fontWeight: 700,
-      color: "#4b5563",
-      textTransform: "uppercase",
-      letterSpacing: "0.1em",
-      padding: "10px 14px",
-      borderBottom: "1px solid #1f2937",
-      whiteSpace: "nowrap",
-    }}
-  >
-    {children}
-  </th>
-);
-
 const NetMovementModal = ({ data, onClose }) => {
   const [activeTab, setActiveTab] = useState("purchases");
-
   const tab = TABS.find((t) => t.key === activeTab);
   const records = data?.breakdown?.[activeTab] ?? [];
 
   return (
     <div
       onClick={onClose}
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "rgba(0,0,0,0.75)",
-        backdropFilter: "blur(6px)",
-        zIndex: 50,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 24,
-      }}
+      className="fixed inset-0 bg-black/75 backdrop-blur-md z-50 flex items-center justify-center p-4"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        style={{
-          background: "#0b1120",
-          border: "1px solid #1f2937",
-          borderRadius: 16,
-          width: "100%",
-          maxWidth: 820,
-          maxHeight: "82vh",
-          display: "flex",
-          flexDirection: "column",
-          overflow: "hidden",
-          boxShadow: "0 24px 80px rgba(0,0,0,0.6)",
-        }}
+        className="bg-[#0b1120] border border-gray-800 rounded-2xl w-full max-w-3xl max-h-[82vh] flex flex-col overflow-hidden shadow-2xl"
       >
-        {/* ── Modal header ──────────────────────────────────── */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "20px 24px",
-            borderBottom: "1px solid #1f2937",
-            flexShrink: 0,
-          }}
-        >
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-5 border-b border-gray-800 shrink-0">
           <div>
-            <p
-              style={{
-                fontSize: 17,
-                fontWeight: 800,
-                color: "#f1f5f9",
-                margin: 0,
-              }}
-            >
+            <p className="text-lg font-black text-slate-100">
               Net Movement Breakdown
             </p>
-            <p style={{ fontSize: 13, color: "#4b5563", margin: "5px 0 0" }}>
+            <p className="text-sm text-gray-500 mt-1">
               Purchases + Transfers In − Transfers Out ={" "}
-              <span style={{ color: "#f59e0b", fontWeight: 700 }}>
+              <span className="text-amber-400 font-bold">
                 {fmt(data?.netMovement)}
               </span>
             </p>
           </div>
           <button
             onClick={onClose}
-            style={{
-              width: 32,
-              height: 32,
-              borderRadius: 8,
-              background: "#111827",
-              border: "1px solid #1f2937",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
-            }}
+            className="w-8 h-8 rounded-lg bg-gray-900 border border-gray-800 flex items-center justify-center cursor-pointer hover:border-gray-600 transition-colors"
           >
-            <X size={15} color="#64748b" />
+            <X size={15} className="text-gray-400" />
           </button>
         </div>
 
-        {/* ── Tabs ──────────────────────────────────────────── */}
-        <div
-          style={{
-            display: "flex",
-            gap: 2,
-            padding: "0 24px",
-            borderBottom: "1px solid #1f2937",
-            flexShrink: 0,
-          }}
-        >
+        {/* Tabs */}
+        <div className="flex gap-0.5 px-6 border-b border-gray-800 shrink-0 overflow-x-auto">
           {TABS.map((t) => {
             const count = (data?.breakdown?.[t.key] ?? []).length;
             const isActive = activeTab === t.key;
@@ -141,33 +67,24 @@ const NetMovementModal = ({ data, onClose }) => {
               <button
                 key={t.key}
                 onClick={() => setActiveTab(t.key)}
+                className="flex items-center gap-2 px-4 py-3.5 text-sm font-semibold cursor-pointer transition-all whitespace-nowrap border-b-2"
                 style={{
-                  padding: "13px 18px",
-                  fontSize: 13,
-                  fontWeight: 600,
+                  color: isActive ? t.color : "#4b5563",
+                  borderBottomColor: isActive ? t.color : "transparent",
+                  background: "transparent",
                   border: "none",
                   borderBottom: isActive
                     ? `2px solid ${t.color}`
                     : "2px solid transparent",
-                  background: "transparent",
-                  color: isActive ? t.color : "#4b5563",
-                  cursor: "pointer",
-                  transition: "all 0.15s",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 7,
                 }}
               >
                 {t.label}
                 <span
+                  className="text-[10px] font-bold rounded-full px-1.5 py-0.5"
                   style={{
-                    fontSize: 10,
-                    fontWeight: 700,
                     background: isActive ? t.color + "18" : "#1f2937",
                     color: isActive ? t.color : "#4b5563",
                     border: `1px solid ${isActive ? t.color + "30" : "#374151"}`,
-                    borderRadius: 99,
-                    padding: "1px 7px",
                   }}
                 >
                   {count}
@@ -177,123 +94,63 @@ const NetMovementModal = ({ data, onClose }) => {
           })}
         </div>
 
-        {/* ── Table ─────────────────────────────────────────── */}
-        <div style={{ flex: 1, overflowY: "auto", padding: "0 24px 24px" }}>
+        {/* Table */}
+        <div className="flex-1 overflow-auto px-6 pb-6">
           {records.length === 0 ? (
-            <div
-              style={{
-                textAlign: "center",
-                padding: "56px 0",
-                color: "#374151",
-                fontSize: 14,
-              }}
-            >
+            <p className="text-center py-14 text-gray-600 text-sm">
               No records for this period
-            </div>
+            </p>
           ) : (
-            <table
-              style={{
-                width: "100%",
-                borderCollapse: "collapse",
-                marginTop: 4,
-              }}
-            >
-              <thead
-                style={{
-                  position: "sticky",
-                  top: 0,
-                  background: "#0b1120",
-                  zIndex: 1,
-                }}
-              >
+            <table className="w-full border-collapse mt-1 min-w-[520px]">
+              <thead className="sticky top-0 bg-[#0b1120] z-10">
                 <tr>
-                  <TH>Asset</TH>
-                  <TH>Category</TH>
-                  <TH>{activeTab === "purchases" ? "Base" : "Route"}</TH>
-                  <TH>Qty</TH>
-                  <TH>Date</TH>
-                  {activeTab === "purchases" && <TH>Supplier Ref</TH>}
+                  {[
+                    "Asset",
+                    "Category",
+                    activeTab === "purchases" ? "Base" : "Route",
+                    "Qty",
+                    "Date",
+                    ...(activeTab === "purchases" ? ["Supplier Ref"] : []),
+                  ].map((h) => (
+                    <th
+                      key={h}
+                      className="text-left text-[10px] font-bold text-gray-500 uppercase tracking-widest px-3.5 py-2.5 border-b border-gray-800 whitespace-nowrap"
+                    >
+                      {h}
+                    </th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
                 {records.map((r, i) => (
                   <tr
                     key={i}
-                    style={{ borderBottom: "1px solid #0f172a" }}
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.background = "#111827")
-                    }
-                    onMouseLeave={(e) =>
-                      (e.currentTarget.style.background = "transparent")
-                    }
+                    className="border-b border-[#0f172a] hover:bg-gray-900/50 transition-colors"
                   >
-                    <td
-                      style={{
-                        padding: "11px 14px",
-                        fontSize: 13,
-                        color: "#f1f5f9",
-                        fontWeight: 600,
-                      }}
-                    >
+                    <td className="px-3.5 py-2.5 text-sm font-semibold text-slate-100">
                       {r.asset}
                     </td>
-                    <td style={{ padding: "11px 14px" }}>
-                      <span
-                        style={{
-                          fontSize: 10,
-                          fontWeight: 700,
-                          color: "#94a3b8",
-                          background: "#1f2937",
-                          borderRadius: 4,
-                          padding: "2px 8px",
-                          textTransform: "capitalize",
-                          letterSpacing: "0.05em",
-                        }}
-                      >
+                    <td className="px-3.5 py-2.5">
+                      <span className="text-[10px] font-bold text-gray-400 bg-gray-800 rounded px-2 py-0.5 capitalize tracking-wide">
                         {r.category}
                       </span>
                     </td>
-                    <td
-                      style={{
-                        padding: "11px 14px",
-                        fontSize: 12,
-                        color: "#64748b",
-                        maxWidth: 220,
-                      }}
-                    >
+                    <td className="px-3.5 py-2.5 text-xs text-gray-500 max-w-[200px]">
                       {activeTab === "purchases"
                         ? r.base
                         : `${r.fromBase?.split(" - ")[1] ?? r.fromBase} → ${r.toBase?.split(" - ")[1] ?? r.toBase}`}
                     </td>
                     <td
-                      style={{
-                        padding: "11px 14px",
-                        fontSize: 14,
-                        fontWeight: 800,
-                        color: tab.color,
-                      }}
+                      className="px-3.5 py-2.5 text-sm font-black whitespace-nowrap"
+                      style={{ color: tab.color }}
                     >
                       {fmt(r.quantity)}
                     </td>
-                    <td
-                      style={{
-                        padding: "11px 14px",
-                        fontSize: 12,
-                        color: "#64748b",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
+                    <td className="px-3.5 py-2.5 text-xs text-gray-500 whitespace-nowrap">
                       {fmtDate(r.purchaseDate || r.transferDate)}
                     </td>
                     {activeTab === "purchases" && (
-                      <td
-                        style={{
-                          padding: "11px 14px",
-                          fontSize: 11,
-                          color: "#374151",
-                          fontFamily: "monospace",
-                        }}
-                      >
+                      <td className="px-3.5 py-2.5 text-xs text-gray-600 font-mono">
                         {r.supplierRef ?? "—"}
                       </td>
                     )}
