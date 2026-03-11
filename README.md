@@ -314,13 +314,11 @@ After seeding (`npm start` or `node src/server seed`):
 
 ## Deployment
 
-| Layer    | Platform      | Notes                                                     |
-| -------- | ------------- | --------------------------------------------------------- |
-| Frontend | Vercel        | Root dir: `frontend`, add `VITE_BACKEND_URL` env var      |
-| Backend  | Render        | Root dir: `backend`, start: `npm start`, add all env vars |
-| Database | MongoDB Atlas | Whitelist `0.0.0.0/0` for Render's dynamic IPs            |
-
-> In production, update `FRONTEND_URL` in backend `.env` to your Vercel URL for CORS.
+| Layer    | Platform      | URL                                                                |
+| -------- | ------------- | ------------------------------------------------------------------ |
+| Frontend | Vercel        | https://military-asset-management-system-gold.vercel.app           |
+| Backend  | Render        | https://military-asset-management-system-backend-3a46.onrender.com |
+| Database | MongoDB Atlas | cluster0.n6nhu4y.mongodb.net                                       |
 
 ---
 
